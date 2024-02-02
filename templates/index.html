@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ML API</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind', sans-serif;
+            background: url('https://staticfiles.acronis.com/images/content/dfb93f38db3a6711946de014068252f7.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .login {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .login h1 {
+            font-size: 2em;
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input {
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 3px;
+        }
+
+        button {
+            width: 50%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 3px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        h1 {
+            margin-top: 40px;
+            font-size: 1.5em;
+        }
+
+        p {
+            font-size: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <h1>Projet Classification Malware</h1>
+
+        <!-- Main Input For Receiving Query to our ML -->
+        <form action="{{ url_for('predict')}}" method="post">
+            <input type="text" name="AddressOfEntryPoint" placeholder="AddressOfEntryPoint" required="required" />
+            <input type="text" name="MajorLinkerVersion" placeholder="MajorLinkerVersion" required="required" />
+            <input type="text" name="MajorImageVersion" placeholder="MajorImageVersion" required="required" />
+            <input type="text" name="MajorOperatingSystemVersion" placeholder="MajorOperatingSystemVersion" required="required" />
+            <input type="text" name="DllCharacteristics" placeholder="DllCharacteristics" required="required" />
+            <input type="text" name="SizeOfStackReserve" placeholder="SizeOfStackReserve" required="required" />
+            <input type="text" name="NumberOfSections" placeholder="NumberOfSections" required="required" />
+            <input type="text" name="ResourceSize" placeholder="ResourceSize" required="required" />
+
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+        </form>
+        <h1>Résultat de la prédiction :</h1>
+        {% if prediction == 1 %}
+        <p style="color: green;">Ce n'est pas un malware.</p>
+        {% elif prediction == 0 %}
+        <p style="color: red;">C'est un malware.</p>
+        {% else %}
+        <p style="color: blue;">La prédiction est : {{ prediction }}</p>
+        {% endif %}
+        <br>
+        <br>
+        {{ prediction_text }}
+    </div>
+</body>
+
+</html>
